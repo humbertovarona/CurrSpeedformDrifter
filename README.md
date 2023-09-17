@@ -54,30 +54,30 @@ from datetime import datetime
 
 ```python
 csvData = "/Users/varona/Laboro/pythonProject/CurrSpeedformDrifter/track1.csv"
-    drifterData = ReadCSV(csvData)
-    lonsData = [row[1] for row in drifterData]
-    lonList = lonsData[1:]
-    latsData = [row[2] for row in drifterData]
-    latList = latsData[1:]
-    timedateData = [row[3] for row in drifterData]
-    timesList = timedateData[1:]
+drifterData = ReadCSV(csvData)
+lonsData = [row[1] for row in drifterData]
+lonList = lonsData[1:]
+latsData = [row[2] for row in drifterData]
+latList = latsData[1:]
+timedateData = [row[3] for row in drifterData]
+timesList = timedateData[1:]
 
-    DistList, DirList, TimeList = computeDrifterData(lonsData, latsData, timedateData)
-    speedList, uList, vList = compute_DrifterSpeed(DistList, DirList, TimeList)
+DistList, DirList, TimeList = computeDrifterData(lonsData, latsData, timedateData)
+speedList, uList, vList = compute_DrifterSpeed(DistList, DirList, TimeList)
 
-    saveCSVData("/Users/varona/Laboro/pythonProject/CurrSpeedformDrifter/track1_output.csv", timesList, lonsData, latsData, speedList, DirList, uList, vList)
+saveCSVData("/Users/varona/Laboro/pythonProject/CurrSpeedformDrifter/track1_output.csv", timesList, lonsData, latsData, speedList, DirList, uList, vList)
 
-    NCFilename = "/Users/varona/Laboro/pythonProject/CurrSpeedformDrifter/cmems.nc"
-    variablesList = ['longitude', 'latitude', 'uo', 'vo']
-    NCLon, NCLat, NCu, NCv = read_NetCDF_data(NCFilename, 0, 7, variablesList)
-    plotVectorsMap(NCLon, NCLat, NCu, NCv, -62, -52, -65, -59, 0.5, 'blue', 0.25)
+NCFilename = "/Users/varona/Laboro/pythonProject/CurrSpeedformDrifter/cmems.nc"
+variablesList = ['longitude', 'latitude', 'uo', 'vo']
+NCLon, NCLat, NCu, NCv = read_NetCDF_data(NCFilename, 0, 7, variablesList)
+plotVectorsMap(NCLon, NCLat, NCu, NCv, -62, -52, -65, -59, 0.5, 'blue', 0.25)
 
-    indexes = get_DayIndexes(timedateData, "2022-02-21")
-    dlonList = get_values_from_indices(lonList, indexes)
-    dlatList = get_values_from_indices(latList, indexes)
-    duList = get_values_from_indices(uList, indexes)
-    dvList = get_values_from_indices(vList, indexes)
-    addVectors(selectVectors(dlonList, 5), selectVectors(dlatList, 5), selectVectors(duList, 5), selectVectors(dvList, 5), 0.5, 'green', 0.25)
+indexes = get_DayIndexes(timedateData, "2022-02-21")
+dlonList = get_values_from_indices(lonList, indexes)
+dlatList = get_values_from_indices(latList, indexes)
+duList = get_values_from_indices(uList, indexes)
+dvList = get_values_from_indices(vList, indexes)
+addVectors(selectVectors(dlonList, 5), selectVectors(dlatList, 5), selectVectors(duList, 5), selectVectors(dvList, 5), 0.5, 'green', 0.25)
 
-    Plot_and_ExportFigure('/Users/varona/Laboro/pythonProject/CurrSpeedformDrifter/compH.jpeg')
+Plot_and_ExportFigure('/Users/varona/Laboro/pythonProject/CurrSpeedformDrifter/compH.jpeg')
 ```
