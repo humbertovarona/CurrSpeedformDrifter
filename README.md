@@ -1,4 +1,4 @@
-# CurrSpeedformDrifter
+# CurrSpeedfromDrifter
 
 Computes drifter speeds
 
@@ -48,13 +48,17 @@ import cartopy.feature as feature
 import numpy as np
 import netCDF4 as nc
 from datetime import datetime
+import statistics
+import os
 ```
 
 ## Usage example
 
 ```python
-csvData = "/Users/varona/Laboro/pythonProject/CurrSpeedformDrifter/track1.csv"
+csvData = "./track1.csv"
 drifterData = ReadCSV(csvData)
+drifterData = Remove_Duplicaterows(drifterData)
+
 lonsData = [row[1] for row in drifterData]
 lonList = lonsData[1:]
 latsData = [row[2] for row in drifterData]
@@ -65,9 +69,11 @@ timesList = timedateData[1:]
 DistList, DirList, TimeList = computeDrifterData(lonsData, latsData, timedateData)
 speedList, uList, vList = compute_DrifterSpeed(DistList, DirList, TimeList)
 
-saveCSVData("/Users/varona/Laboro/pythonProject/CurrSpeedformDrifter/track1_output.csv", timesList, lonsData, latsData, speedList, DirList, uList, vList)
+OutputCSVFilename = "./track1_output.csv";
+saveCSVData(OutputCSVFilename, timesList, lonsData, latsData, speedList, DirList, uList, vList)
+RemoveOutliersAndSaveCSV(OutputCSVFilename, 3, threshold=2.5)
 
-NCFilename = "/Users/varona/Laboro/pythonProject/CurrSpeedformDrifter/cmems.nc"
+NCFilename = "./cmems.nc"
 variablesList = ['longitude', 'latitude', 'uo', 'vo']
 NCLon, NCLat, NCu, NCv = read_NetCDF_data(NCFilename, 0, 7, variablesList)
 plotVectorsMap(NCLon, NCLat, NCu, NCv, -62, -52, -65, -59, 0.5, 'blue', 0.25)
@@ -79,5 +85,5 @@ duList = get_values_from_indices(uList, indexes)
 dvList = get_values_from_indices(vList, indexes)
 addVectors(selectVectors(dlonList, 5), selectVectors(dlatList, 5), selectVectors(duList, 5), selectVectors(dvList, 5), 0.5, 'green', 0.25)
 
-Plot_and_ExportFigure('/Users/varona/Laboro/pythonProject/CurrSpeedformDrifter/compH.jpeg')
+Plot_and_ExportFigure('./compH.jpeg')
 ```
